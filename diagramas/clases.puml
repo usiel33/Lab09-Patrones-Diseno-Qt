@@ -1,0 +1,60 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Actividad {
+    # titulo_ : QString
+    # fecha_ : QDate
+    + titulo() : QString
+    + fecha() : QDate
+    + tipo() : QString
+}
+
+class Tarea
+class Examen
+class Proyecto
+
+interface IRepositorio {
+    + agregar(actividad)
+    + listar()
+    + cargar()
+}
+
+class RepositorioActividades
+class AdaptadorCsv
+class LectorCsvHeredado
+
+class FabricaActividades {
+    + crear(datos) : Actividad
+}
+
+class ActividadController {
+    + crear(datos)
+    + cargar()
+    + listar()
+}
+
+class MainWindow {
+    + crearSolicitado(datos)
+    + cargarSolicitado()
+    + mostrar(actividades)
+}
+
+Actividad <|-- Tarea
+Actividad <|-- Examen
+Actividad <|-- Proyecto
+
+IRepositorio <|.. RepositorioActividades
+IRepositorio <|.. AdaptadorCsv
+
+AdaptadorCsv --> LectorCsvHeredado
+AdaptadorCsv --> FabricaActividades
+
+FabricaActividades ..> Actividad
+
+ActividadController --> IRepositorio
+ActividadController --> FabricaActividades
+
+MainWindow --> ActividadController
+
+@enduml

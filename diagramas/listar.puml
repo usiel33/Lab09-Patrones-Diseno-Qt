@@ -1,0 +1,15 @@
+@startuml
+
+actor Usuario
+participant MainWindow
+participant ActividadController
+participant IRepositorio
+
+Usuario -> MainWindow : solicita visualizar
+MainWindow -> ActividadController : listar()
+ActividadController -> IRepositorio : listar()
+IRepositorio --> ActividadController : lista de actividades
+ActividadController --> MainWindow : listaActualizada(datos)
+MainWindow --> Usuario : muestra registros
+
+@enduml

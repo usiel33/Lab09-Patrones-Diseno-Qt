@@ -1,0 +1,27 @@
+@startuml
+
+actor Usuario
+participant MainWindow
+participant ActividadController
+participant AdaptadorCsv
+participant LectorCsvHeredado
+participant FabricaActividades
+
+Usuario -> MainWindow : pulsa Importar CSV
+MainWindow -> ActividadController : cargar()
+ActividadController -> AdaptadorCsv : cargar()
+AdaptadorCsv -> LectorCsvHeredado : leerLineas(ruta)
+LectorCsvHeredado --> AdaptadorCsv : lineas CSV
+
+loop Cada registro
+    AdaptadorCsv -> FabricaActividades : crear(datos)
+    FabricaActividades --> AdaptadorCsv : Actividad
+    AdaptadorCsv -> AdaptadorCsv : agregar(actividad)
+end
+
+ActividadController -> AdaptadorCsv : listar()
+AdaptadorCsv --> ActividadController : actividades
+ActividadController --> MainWindow : listaActualizada()
+MainWindow --> Usuario : muestra registros
+
+@enduml

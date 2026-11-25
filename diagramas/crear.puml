@@ -1,0 +1,19 @@
+@startuml
+
+actor Usuario
+participant MainWindow
+participant ActividadController
+participant FabricaActividades
+participant IRepositorio
+
+Usuario -> MainWindow : pulsa Agregar
+MainWindow -> ActividadController : crearSolicitado(datos)
+ActividadController -> FabricaActividades : crear(datos)
+FabricaActividades --> ActividadController : Actividad
+ActividadController -> IRepositorio : agregar(actividad)
+ActividadController -> IRepositorio : listar()
+IRepositorio --> ActividadController : actividades
+ActividadController --> MainWindow : listaActualizada()
+MainWindow --> Usuario : muestra actividad
+
+@enduml
